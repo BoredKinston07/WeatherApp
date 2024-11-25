@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Parser</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Information</h1>
+        <div class="form-container">
+            <input type="text" id="country" placeholder="Enter country (e.g., Ukraine)">
+            <input type="text" id="city" placeholder="Enter city (e.g., Kyiv)">
+            <button onclick="getWeather()">Get Weather</button>
+        </div>
+        <div id="weather-result">
+            <h2>Weather Result:</h2>
+            <p id="temperature"></p>
+            <p id="error-message" style="color: red;"></p>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/eel.js"></script>
+    <script>
+        function getWeather() {
+            const country = document.getElementById("country").value;
+            const city = document.getElementById("city").value;
+
+            // Викликаємо Python функцію через Eel і отримуємо результат
+            eel.get_weather(country, city)(function(result) {
+                if (result.includes("not found")) {
+                    document.getElementById("temperature").textContent = '';
+                    document.getElementById("error-message").textContent = result;
+                } else {
+                    document.getElementById("temperature").textContent = "Temperature: " + result;
+                    document.getElementById("error-message").textContent = '';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
